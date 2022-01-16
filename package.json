@@ -1,0 +1,27 @@
+{
+  "name": "shopify",
+  "version": "1.0.0",
+  "description": "Backend API facilitating CRUD operations for logistics company and with some additional features",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shriraj26/Shopify.git"
+  },
+  "author": "Shriraj",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Shriraj26/Shopify/issues"
+  },
+  "homepage": "https://github.com/Shriraj26/Shopify#readme",
+  "dependencies": {
+    "body-parser": "^1.19.1",
+    "express": "^4.17.2",
+    "mongoose": "^6.1.6",
+    "nodemon": "^2.0.15",
+    "path": "^0.12.7"
+  }
+}
