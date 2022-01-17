@@ -16,4 +16,6 @@ router.put('/update', indexController.update);
 
 router.delete('/delete', indexController.delete);
 
+router.post('/undo', indexController.undoDelete);
+
 module.exports = router;
