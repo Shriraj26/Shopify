@@ -19,11 +19,12 @@ module.exports.create = async function (req, res) {
         });
 
     } catch (err) {
-        console.log('Error creating an inventory item - ', err);
+
         return res.status(500).json({
             data: item,
             status: "Failure",
-            message: "Error while creating an item"
+            message: "Error while creating an item",
+            error: err
 
         });
     }
@@ -35,22 +36,20 @@ module.exports.update = async function (req, res) {
 
     const idToUpdate = req.params.id;
 
-    console.log('id to update - ', idToUpdate);
-
     try {
-        const a = await Inventory.findByIdAndUpdate(idToUpdate, { $set: valueToUpdate })
+        await Inventory.findByIdAndUpdate(idToUpdate, { $set: valueToUpdate })
 
         return res.status(200).json({
             status: "Success",
             message: 'Item Updated successfully!',
-            data: a
-        })
+
+        });
 
     } catch (err) {
         return res.status(500).json({
-            data: item,
             status: "Failure",
-            message: "Error while updating an item"
+            message: "Error while updating an item",
+            error: err
 
         });
     }
@@ -62,20 +61,20 @@ module.exports.read = async function (req, res) {
 
     try {
 
-        let items = await Inventory.find({});
+        const items = await Inventory.find({});
         return res.status(200).json({
             status: "Success",
             message: "Fetched list of Items",
             data: items,
-
         });
 
     } catch (err) {
-        console.log('Error while fetching the items - ', err);
+
         return res.status(500).json({
             data: item,
             status: "Failure",
-            message: "Error while fetching list of items"
+            message: "Error while fetching list of items",
+            error: err
 
         });
     }
@@ -98,11 +97,12 @@ module.exports.get = async function (req, res) {
         });
 
     } catch (err) {
-        console.log('Error while fetching an item ', err);
+
         return res.status(500).json({
             data: item,
             status: "Failure",
-            message: "Error while fetching an item"
+            message: "Error while fetching an item",
+            error: err
 
         });
 
@@ -112,7 +112,7 @@ module.exports.get = async function (req, res) {
 
 
 module.exports.delete = async function (req, res) {
-    console.log('In delete');
+
 
     const idToDelete = req.params.id;
     /*
@@ -124,7 +124,7 @@ module.exports.delete = async function (req, res) {
     try {
 
         let a = await Inventory.findByIdAndDelete({ _id: idToDelete });
-
+        console.log('Here');
         // insert into the deleted items table
         let b = await DeletedInventory.create({
             itemId: a._id,
@@ -134,19 +134,17 @@ module.exports.delete = async function (req, res) {
             unit_price: a.unit_price,
             image_url: a.image_url,
             thumbnail_url: a.thumbnail_url,
-            createdAt: a.createdAt,
-            updatedAt: a.updatedAt
-
+            originalCreatedAt: a.createdAt,
         });
-        console.log(req.body.comment);
+
         if (req.body.comment) {
-            console.log('Here')
+
             // insert into the comments table - 
-            let c = await Comments.create({
+            const c = await Comments.create({
                 comment: req.body.comment,
                 itemId: a._id
             });
-            console.log('comment is ', c);
+
         }
 
         return res.status(200).json({
@@ -155,11 +153,11 @@ module.exports.delete = async function (req, res) {
         })
 
     } catch (err) {
-        console.log('Error deleting the item - ', err);
+
         return res.status(500).json({
-            data: item,
             status: "Failure",
-            message: "Error while deleting an item"
+            message: "Error while deleting an item",
+            error: err
 
         });
     }
@@ -167,7 +165,7 @@ module.exports.delete = async function (req, res) {
 
 module.exports.undoDelete = async function (req, res) {
 
-    console.log('In undo delete');
+
     /*
         Flow is this - 
         1. find and delete an item from deleted items table
@@ -177,13 +175,12 @@ module.exports.undoDelete = async function (req, res) {
 
     try {
 
-        // let x = await DeletedInventory.findOne({ itemId: req.body.id });
-        // console.log('item to undo delete is - ', x);
 
-        let a = await DeletedInventory.findOne({ itemId: req.body.id });
+
+        const a = await DeletedInventory.findOne({ itemId: req.body.id });
 
         // insert into the Inventory again
-        let b = await Inventory.create({
+        const b = await Inventory.create({
             _id: a.itemId,
             name: a.name,
             company: a.company,
@@ -191,12 +188,10 @@ module.exports.undoDelete = async function (req, res) {
             unit_price: a.unit_price,
             image_url: a.image_url,
             thumbnail_url: a.thumbnail_url,
-            createdAt: a.createdAt,
-            updatedAt: a.updatedAt
+            createdAt: a.originalCreatedAt,
+            lastDeleted: a.createdAt
 
         });
-
-        console.log(b);
 
         return res.status(200).json({
             status: "Success",
@@ -204,12 +199,12 @@ module.exports.undoDelete = async function (req, res) {
         })
 
     } catch (err) {
-        console.log('Error Undoing the item - ', err);
+
         return res.status(500).json({
             data: item,
             status: "Failure",
-            message: "Error while undoing an item"
-
+            message: "Error while undoing an item",
+            error: err
         });
     }
 }

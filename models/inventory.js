@@ -35,7 +35,9 @@ const inventorySchemma = mongoose.Schema(
         thumbnail_url: {
             type: String
         },
-
+        lastDeleted: {
+            type: Date
+        }
     }, {
     timestamps: true
 }

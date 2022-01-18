@@ -7,6 +7,10 @@ const deletedItemsSchemma = mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Inventory'
         },
+        originalCreatedAt: {
+            type: mongoose.Schema.Types.Date,
+            ref: 'Inventory'
+        },
         name: {
             type: String,
             required: true

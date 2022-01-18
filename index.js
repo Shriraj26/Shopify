@@ -1,5 +1,6 @@
 const express = require('express');  //To use Express 
-const path = require('path');  //path variable for getting path dynamically 
+const cron = require('node-cron');
+const clean = require('./helper/clean-deleted-table');
 
 const port = 8000;  //port
 const db = require('./config/mongoose');
@@ -7,6 +8,8 @@ const app = express();
 app.use(express.json())
 
 app.use('/', require('./routes'));
+cron.schedule('* * * * *', clean);
+
 
 app.listen(port, function (err) {
     if (err) {
