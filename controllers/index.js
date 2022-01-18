@@ -3,7 +3,56 @@ const DeletedInventory = require('../models/deletedItems');
 const Comments = require('../models/comments');
 
 module.exports.home = async function (req, res) {
-    // console.log('In home');
+
+    if (Object.keys(req.query).length > 0) {
+        const idToRead = req.query.id;
+        try {
+            const item = await Inventory.findById({ _id: idToRead });
+            if (item == null) {
+                item = 'No item found';
+            }
+            return res.status(200).json({
+                data: item,
+                status: "Success",
+                message: "Fetched the Item for given id"
+
+            });
+
+        } catch (err) {
+
+            return res.status(500).json({
+
+                status: "Failure",
+                message: "Error while fetching an item",
+                error: err
+
+            });
+
+        }
+
+    } else {
+        try {
+
+            const items = await Inventory.find({});
+            return res.status(200).json({
+                status: "Success",
+                message: "Fetched list of Items",
+                data: items,
+            });
+
+        } catch (err) {
+
+            return res.status(500).json({
+                status: "Failure",
+                message: "Error while fetching list of items",
+                error: err
+
+            });
+        }
+    }
+
+
+
 }
 
 module.exports.create = async function (req, res) {
@@ -21,7 +70,6 @@ module.exports.create = async function (req, res) {
     } catch (err) {
 
         return res.status(500).json({
-            data: item,
             status: "Failure",
             message: "Error while creating an item",
             error: err
@@ -34,7 +82,7 @@ module.exports.update = async function (req, res) {
 
     const valueToUpdate = req.body;
 
-    const idToUpdate = req.params.id;
+    const idToUpdate = req.query.id;
 
     try {
         await Inventory.findByIdAndUpdate(idToUpdate, { $set: valueToUpdate })
@@ -56,75 +104,14 @@ module.exports.update = async function (req, res) {
 
 }
 
-module.exports.read = async function (req, res) {
-
-
-    try {
-
-        const items = await Inventory.find({});
-        return res.status(200).json({
-            status: "Success",
-            message: "Fetched list of Items",
-            data: items,
-        });
-
-    } catch (err) {
-
-        return res.status(500).json({
-            data: item,
-            status: "Failure",
-            message: "Error while fetching list of items",
-            error: err
-
-        });
-    }
-}
-
-module.exports.get = async function (req, res) {
-
-    const idToRead = req.params.id;
-
-    try {
-        let item = await Inventory.findById({ _id: idToRead });
-        if (item == null) {
-            item = 'No item found';
-        }
-        return res.status(200).json({
-            data: item,
-            status: "Success",
-            message: "Fetched the Item for given id"
-
-        });
-
-    } catch (err) {
-
-        return res.status(500).json({
-            data: item,
-            status: "Failure",
-            message: "Error while fetching an item",
-            error: err
-
-        });
-
-    }
-}
-
-
-
 module.exports.delete = async function (req, res) {
 
 
-    const idToDelete = req.params.id;
-    /*
-        Flow is this - 
-        1. delete item from main table
-        2. create an entry into the deleted items table
-        2. if comment has been made, then create a comment for it as well in comment table
-    */
+    const idToDelete = req.query.id;
     try {
 
         let a = await Inventory.findByIdAndDelete({ _id: idToDelete });
-        console.log('Here');
+
         // insert into the deleted items table
         let b = await DeletedInventory.create({
             itemId: a._id,
@@ -172,12 +159,13 @@ module.exports.undoDelete = async function (req, res) {
         2. create an entry into the main
         3. what to do of the comment?
     */
+    const idToDelete = req.query.id;
 
     try {
 
 
 
-        const a = await DeletedInventory.findOne({ itemId: req.body.id });
+        const a = await DeletedInventory.findOne({ itemId: idToDelete });
 
         // insert into the Inventory again
         const b = await Inventory.create({
@@ -201,7 +189,6 @@ module.exports.undoDelete = async function (req, res) {
     } catch (err) {
 
         return res.status(500).json({
-            data: item,
             status: "Failure",
             message: "Error while undoing an item",
             error: err

@@ -8,17 +8,13 @@ const indexController = require('../controllers/index');
 
 const router = express.Router();
 
-router.get('/', indexController.home);
+router.get('/fetch', indexController.home);
 
 router.post('/create', validateDto(createSchema), indexController.create);
 
-router.put('/update/:id', validateDto(updateSchema), indexController.update);
+router.put('/update', validateDto(updateSchema), indexController.update);
 
-router.get('/get/:id', indexController.get);
-
-router.get('/read', indexController.read);
-
-router.delete('/delete/:id', indexController.delete);
+router.delete('/delete', indexController.delete);
 
 router.post('/undo', indexController.undoDelete);
 
