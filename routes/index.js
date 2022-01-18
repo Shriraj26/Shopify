@@ -1,18 +1,22 @@
 const express = require('express');
 
+const validateDto = require('../middlewares/validate-dto');
+const createSchema = require('../validators/create');
+const updateSchema = require('../validators/update');
+
 const indexController = require('../controllers/index');
 
 const router = express.Router();
 
 router.get('/', indexController.home);
 
-router.post('/create', indexController.create);
+router.post('/create', validateDto(createSchema), indexController.create);
+
+router.put('/update/:id', validateDto(updateSchema), indexController.update);
 
 router.get('/get', indexController.get);
 
 router.get('/read', indexController.read);
-
-router.put('/update', indexController.update);
 
 router.delete('/delete', indexController.delete);
 

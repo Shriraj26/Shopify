@@ -9,12 +9,11 @@ module.exports.home = async function (req, res) {
 module.exports.create = async function (req, res) {
 
     let data = req.body;
+
     try {
 
         await Inventory.create(data);
-        let items = await Inventory.find({});
         return res.status(200).json({
-            data: items,
             status: "Success",
             message: "Created an item for inventory successfully"
         });
@@ -30,15 +29,48 @@ module.exports.create = async function (req, res) {
     }
 }
 
-module.exports.read = async function (req, res) {
+module.exports.update = async function (req, res) {
+
+    let valueToUpdate = req.body;
+
+    let idToUpdate = req.params.id;
+
+    console.log('id to update - ', idToUpdate);
+
+
 
     try {
+        let a = await Inventory.findByIdAndUpdate(idToUpdate, { $set: valueToUpdate })
+        a = await Inventory.findById(idToUpdate);
 
+        return res.status(200).json({
+            status: "Success",
+            message: 'Item Updated successfully!',
+            data: a
+        })
+
+    } catch (err) {
+        return res.status(500).json({
+            data: item,
+            status: "Failure",
+            message: "Error while updating an item"
+
+        });
+    }
+
+}
+
+module.exports.read = async function (req, res) {
+
+
+    try {
+        console.log(validationResult(req));
         let items = await Inventory.find({});
         return res.status(200).json({
-            data: items,
             status: "Success",
-            message: "Fetched list of Items"
+            message: "Fetched list of Items",
+            data: items,
+
         });
 
     } catch (err) {
@@ -79,31 +111,6 @@ module.exports.get = async function (req, res) {
 }
 
 
-module.exports.update = async function (req, res) {
-
-    let valueToUpdate = req.body;
-    try {
-        let a = await Inventory.findByIdAndUpdate(req.body.id, { $set: valueToUpdate })
-        a = await Inventory.findById(valueToUpdate.id);
-
-        //console.log('updated value - ', a);
-
-        return res.status(200).json({
-            status: "Success",
-            message: 'Item Updated successfully!',
-            data: a
-        })
-
-    } catch (err) {
-        return res.status(500).json({
-            data: item,
-            status: "Failure",
-            message: "Error while updating an item"
-
-        });
-    }
-
-}
 
 module.exports.delete = async function (req, res) {
     console.log('In delete');
