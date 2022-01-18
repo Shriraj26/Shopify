@@ -8,7 +8,7 @@ module.exports.home = async function (req, res) {
 
 module.exports.create = async function (req, res) {
 
-    let data = req.body;
+    const data = req.body;
 
     try {
 
@@ -31,17 +31,14 @@ module.exports.create = async function (req, res) {
 
 module.exports.update = async function (req, res) {
 
-    let valueToUpdate = req.body;
+    const valueToUpdate = req.body;
 
-    let idToUpdate = req.params.id;
+    const idToUpdate = req.params.id;
 
     console.log('id to update - ', idToUpdate);
 
-
-
     try {
-        let a = await Inventory.findByIdAndUpdate(idToUpdate, { $set: valueToUpdate })
-        a = await Inventory.findById(idToUpdate);
+        const a = await Inventory.findByIdAndUpdate(idToUpdate, { $set: valueToUpdate })
 
         return res.status(200).json({
             status: "Success",
@@ -64,7 +61,7 @@ module.exports.read = async function (req, res) {
 
 
     try {
-        console.log(validationResult(req));
+
         let items = await Inventory.find({});
         return res.status(200).json({
             status: "Success",
@@ -86,8 +83,10 @@ module.exports.read = async function (req, res) {
 
 module.exports.get = async function (req, res) {
 
+    const idToRead = req.params.id;
+
     try {
-        let item = await Inventory.findById({ _id: req.body.id });
+        let item = await Inventory.findById({ _id: idToRead });
         if (item == null) {
             item = 'No item found';
         }
@@ -114,6 +113,8 @@ module.exports.get = async function (req, res) {
 
 module.exports.delete = async function (req, res) {
     console.log('In delete');
+
+    const idToDelete = req.params.id;
     /*
         Flow is this - 
         1. delete item from main table
@@ -122,7 +123,7 @@ module.exports.delete = async function (req, res) {
     */
     try {
 
-        let a = await Inventory.findByIdAndDelete({ _id: req.body.id });
+        let a = await Inventory.findByIdAndDelete({ _id: idToDelete });
 
         // insert into the deleted items table
         let b = await DeletedInventory.create({

@@ -14,11 +14,11 @@ router.post('/create', validateDto(createSchema), indexController.create);
 
 router.put('/update/:id', validateDto(updateSchema), indexController.update);
 
-router.get('/get', indexController.get);
+router.get('/get/:id', indexController.get);
 
 router.get('/read', indexController.read);
 
-router.delete('/delete', indexController.delete);
+router.delete('/delete/:id', indexController.delete);
 
 router.post('/undo', indexController.undoDelete);
 
