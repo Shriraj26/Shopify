@@ -9,10 +9,10 @@ Backend API facilitating CRUD operations for logistics company and with some add
 ## Commands to run this project locally
 
 ### Install the project and its dependencies
-[`npm install`](#npm install)
+[`npm install`]
 
 ### Run this project
-[`npm start`](#npm start)
+[`npm start`]
 
 # Routes
 
