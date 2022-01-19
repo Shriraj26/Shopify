@@ -1,18 +1,18 @@
 
 # Shopify
-Hi there!! This is my submission for [Shopify Backend Developer Intern Challenge - Summer 2022](https://docs.google.com/document/d/1z9LZ_kZBUbg-O2MhZVVSqTmvDko5IJWHtuFmIu_Xg1A/edit). I have used NodeJS and MongoDB for the implementation of server and the database, Express framework for creating a server and Mongoose ODM for connection with the database. The additional feature that I have implemented is of providing comments while deleting an item and undo delete feature wherein you can restore a deleted item provided an id is given. Below are the details about how to install and use this project along with several API endpoints that you can use to create, update, read an delete the items in the inventories. I thank you for giving your valuable time to review my project. Enjoy!
+Hi there!! This is my submission for [Shopify Backend Developer Intern Challenge - Summer 2022](https://docs.google.com/document/d/1z9LZ_kZBUbg-O2MhZVVSqTmvDko5IJWHtuFmIu_Xg1A/edit). I have used NodeJS and MongoDB for the implementation of server and the database, Express framework for creating a server and Mongoose ODM for connection with the database. The additional feature that I have implemented is of providing comments while deleting an item and undo delete feature wherein you can restore a deleted item provided an id is given. Below are the details about how to install and use this project along with several API endpoints that you can use to create, update, read an delete the items in the inventories. I thank you for giving your valuable time to review my project. Peace!
 
 # Installation
 ## Requirements
-1. [NodeJS](https://nodejs.org/en/download/)
-2. [MongoDB](https://docs.mongodb.com/manual/installation/)
+1. Download Nodejs and install this link - [NodeJS](https://nodejs.org/en/download/)
+2. Download MongoDB and install this link - [MongoDB](https://docs.mongodb.com/manual/installation/)
 
 ## Commands to run this project locally
 
 ### Install the project and its dependencies
 `npm install`
 
-### Run this project
+### Run this project in Dev Environment
 `npm start dev`
 
 # Routes
@@ -40,12 +40,13 @@ Hi there!! This is my submission for [Shopify Backend Developer Intern Challenge
 	}'
 	
 	
-## 2. Read item by its id
+## 2. Fetch an item by its id
 	curl --location --request GET 'http://localhost:8000/fetch?id=61e49ce00c7047ee67008eed'
 	
 
-## 4. Read item by page number and limit
-## 5. Update item
+## 4. Fetch items by page number and limit
+    curl --location --request GET 'http://localhost:8000/getall?page=1&limit=10'
+## 5. Update an item
 	curl --location --request PUT
 	'http://localhost:8000/update?id=61e49ce00c7047ee67008eed' \ 
 	--header 'Content-Type: application/json' \
@@ -53,7 +54,7 @@ Hi there!! This is my submission for [Shopify Backend Developer Intern Challenge
 		"company": "Never Give Up"
 	}'
 	
-## 6. Delete item
+## 6. Delete an item
 	curl --location --request DELETE 'http://localhost:8000/delete?id=61e49ce00c7047ee67008eeb' \
 	--header 'Content-Type: application/json' \
 	--data-raw '{
