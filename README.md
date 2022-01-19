@@ -22,8 +22,8 @@ Hi there!! This is my submission for [Shopify Backend Developer Intern Challenge
 | Create an item          | POST       |  Creates a new product in the inventory      |  /create      |
 | Get an item by id          | GET       |  Fetches a product by its id      |  /fetch?id=1234      |  
 | Get paginated item          | GET        |  Fetch a product by page number and limit      |/getall?page=1&limit=1 |
-| Update an item         | PUT        |  Updates the provided field of an item by its id     | /update |
-| Delete an item       | DELETE        |  Deletes an item by its id      |/delete |
+| Update an item         | PUT        |  Updates the provided field of an item by its id     | /update?id=1234 |
+| Delete an item       | DELETE        |  Deletes an item by its id      |/delete?id=1234 |
 
 # Examples of Requests
 
