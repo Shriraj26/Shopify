@@ -10,7 +10,7 @@ Hi there!! This is my submission for [Shopify Backend Developer Intern Challenge
 ## Commands to run this project locally
 
 ### Install the project and its dependencies
-`npm install`
+`npm install dev`
 
 ### Run this project
 `npm start`
