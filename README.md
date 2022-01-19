@@ -16,9 +16,9 @@ Backend API facilitating CRUD operations for logistics company and with some add
 
 # Routes
 
-| HTTP Methods |  endpoint1  |  endpoint2  |  
+| HTTP Methods | Definition   | Definition   |  
 | -----------  | ----------- | ----------- |
-| GET          | Title       |  Title      |  
+| GET          | get product by id       |  get all products      |  
 | PUT          | Text        |  Title      |
 | POST         | Text        |  Title      |
 | DELETE       | Text        |  Title      |
