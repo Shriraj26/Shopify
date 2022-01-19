@@ -1,6 +1,19 @@
 # Shopify
 Backend API facilitating CRUD operations for logistics company and with some additional features
 
+# Installation
+## Requirements
+1. [NodeJS](https://nodejs.org/en/download/)
+2. [MongoDB](https://docs.mongodb.com/manual/installation/)
+
+## Commands to run this project locally
+
+### Install the project and its dependencies
+[`npm install`](#npm install)
+
+### Run this project
+[`npm start`](#npm start)
+
 # Routes
 
 | HTTP Methods |  endpoint1  |  endpoint2  |  
