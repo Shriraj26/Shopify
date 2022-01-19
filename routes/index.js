@@ -8,16 +8,16 @@ const indexController = require('../controllers/inventory');
 
 const router = express.Router();
 
-router.get('/fetch', indexController.home);
+router.get('/fetch', indexController.getItemById);
 
-router.post('/create', validateDto(createSchema), indexController.create);
+router.post('/create', validateDto(createSchema), indexController.createItem);
 
-router.put('/update', validateDto(updateSchema), indexController.update);
+router.put('/update', validateDto(updateSchema), indexController.updateItem);
 
 router.delete('/delete', indexController.deleteItem);
 
 router.post('/undo', indexController.undoDelete);
 
-router.get('/getall', indexController.getAll);
+router.get('/getall', indexController.getAllItems);
 
 module.exports = router;
