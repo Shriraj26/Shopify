@@ -19,6 +19,7 @@ Backend API facilitating CRUD operations for logistics company and with some add
 | HTTP Methods | Definition   | Definition   |  
 | -----------  | ----------- | ----------- |
 | GET          | get product by id       |  get all products      |  
+|               |     sdsds  |   | 
 | PUT          | Text        |  Title      |
 | POST         | Text        |  Title      |
 | DELETE       | Text        |  Title      |
