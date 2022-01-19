@@ -1,14 +1,12 @@
 /* eslint-disable no-console */
 const Inventory = require('../models/inventory');
-const DeletedInventory = require('../models/deletedItems');
-const Comments = require('../models/comments');
 const Validations = require('../operations/validators');
 const errorHandler = require('../operations/errorHandling');
 
 async function getItemById(req, res) {
   try {
     const idToRead = req.query.id;
-    const item = await Inventory.findById({ _id: idToRead });
+    const item = await Inventory.findById({ _id: idToRead }).where('isActive').equals(true);
 
     if (!Validations.isDefined(item)) {
       return res.status(400).json({
@@ -40,6 +38,7 @@ async function getAllItems(req, res) {
 
     const results = await Inventory
       .find()
+      .where('isActive').equals(true)
       .sort([['createdAt', -1]])
       .limit(limit)
       .skip(startIndex)
@@ -60,6 +59,7 @@ async function getAllItems(req, res) {
 
 async function createItem(req, res) {
   const data = req.body;
+  data.isActive = true;
 
   try {
     await Inventory.create(data);
@@ -86,7 +86,14 @@ async function updateItem(req, res) {
     const valueToUpdate = req.body;
     const idToUpdate = req.query.id;
 
-    await Inventory.findByIdAndUpdate(idToUpdate, { $set: valueToUpdate });
+    const itemToUpdate = await Inventory.findByIdAndUpdate(idToUpdate, { $set: valueToUpdate })
+      .where('isActive').equals(true);
+
+    if (!Validations.isDefined(itemToUpdate)) {
+      return res.status(400).json({
+        message: 'Invalid Item id',
+      });
+    }
 
     return res.status(200).json({
       status: 'Success',
@@ -106,35 +113,26 @@ async function updateItem(req, res) {
 async function deleteItem(req, res) {
   const idToDelete = req.query.id;
   try {
-    const itemToDelete = await Inventory.findByIdAndDelete({ _id: idToDelete });
-
-    // if itemToDelete does not exist, give error
-    if (itemToDelete === null) {
-      return res.status(500).json({
-        status: 'Failure',
-        message: 'Item not found in inventory, cannot delete',
-      });
+    // UPdate the item, set isActive to false and push comment
+    let commentString = '';
+    if (req.body.comment) {
+      commentString = req.body.comment;
+      console.log('Here comment ', commentString);
     }
 
-    // insert into the deleted items table
-    const deletedItem = await DeletedInventory.create({
-      itemId: itemToDelete._id,
-      name: itemToDelete.name,
-      company: itemToDelete.company,
-      quantity: itemToDelete.quantity,
-      unit_price: itemToDelete.unit_price,
-      image_url: itemToDelete.image_url,
-      thumbnail_url: itemToDelete.thumbnail_url,
-      originalCreatedAt: itemToDelete.createdAt,
-    });
+    const itemToDelete = await Inventory
+      .findByIdAndUpdate(
+        idToDelete,
+        {
+          $set: { isActive: false },
+          $push: { comments: { comment: commentString, createdAt: new Date() } },
+        },
+      )
+      .where('isActive').equals(true);
 
-    let newComment = '';
-    if (req.body.comment) {
-      // insert into the comments table -
-      newComment = await Comments.create({
-        comment: req.body.comment,
-        // eslint-disable-next-line no-underscore-dangle
-        itemId: itemToDelete._id,
+    if (!Validations.isDefined(itemToDelete)) {
+      return res.status(400).json({
+        message: 'Invalid Item id',
       });
     }
 
@@ -143,14 +141,14 @@ async function deleteItem(req, res) {
       message: 'Item deleted successfully!',
       data: {
         itemToDelete,
-        comment: newComment.comment,
+        comment: itemToDelete.comments,
       },
     });
   } catch (err) {
     if (errorHandler.isMongoError(err)) {
       return errorHandler.createMongoResponse(err, res);
     }
-
+    console.log(err);
     return res.status(500).json({
       status: 'Failure',
       message: 'Error while deleting an item',
@@ -161,44 +159,25 @@ async function deleteItem(req, res) {
 }
 
 async function undoDelete(req, res) {
-  /*
-        Flow is this -
-        1. find and delete an item from deleted items table
-        2. create an entry into the main
-        3. what to do of the comment?
-    */
-  const idToDelete = req.query.id;
+  const idToRetrieve = req.query.id;
 
   try {
-    const retrieveItem = await DeletedInventory.findOne({ itemId: idToDelete });
+    // update the item and set its isActive flag to true
+    const retrieveItem = await Inventory
+      .findByIdAndUpdate(idToRetrieve, { $set: { isActive: true } })
+      .where('isActive').equals(false);
 
     // if that item does not exist....
-    // if itemToDelete does not exist, give error
-    if (retrieveItem === null) {
-      return res.status(500).json({
-        status: 'Failure',
-        message: 'Item does not exist in deleted items table',
+    if (!Validations.isDefined(retrieveItem)) {
+      return res.status(400).json({
+        message: 'Invalid Item id',
       });
     }
-
-    // insert into the Inventory again
-    const recoveredItem = await Inventory.create({
-      _id: retrieveItem.itemId,
-      name: retrieveItem.name,
-      company: retrieveItem.company,
-      quantity: retrieveItem.quantity,
-      unit_price: retrieveItem.unit_price,
-      image_url: retrieveItem.image_url,
-      thumbnail_url: retrieveItem.thumbnail_url,
-      createdAt: retrieveItem.originalCreatedAt,
-      lastDeleted: retrieveItem.createdAt,
-
-    });
 
     return res.status(200).json({
       status: 'Success',
       message: 'Item Undoed successfully!',
-      data: recoveredItem,
+      data: retrieveItem,
     });
   } catch (err) {
     if (errorHandler.isMongoError(err)) {
@@ -220,5 +199,4 @@ module.exports = {
   updateItem,
   deleteItem,
   undoDelete,
-
 };

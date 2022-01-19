@@ -21,11 +21,6 @@ const inventorySchemma = mongoose.Schema({
     type: Number,
     require: true,
   },
-  // must be positive value
-  total_value: {
-    type: Number,
-    require: true,
-  },
   // must contain http format
   image_url: {
     type: String,
@@ -34,9 +29,19 @@ const inventorySchemma = mongoose.Schema({
   thumbnail_url: {
     type: String,
   },
-  lastDeleted: {
-    type: Date,
+  isActive: {
+    type: Boolean,
   },
+  comments: [
+    {
+      comment: {
+        type: String,
+      },
+      createdAt: {
+        type: Date,
+      },
+    },
+  ],
 }, {
   timestamps: true,
 });

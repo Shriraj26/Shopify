@@ -10,7 +10,7 @@ const updateSchema = {
     image_url: { type: 'string', format: 'uri' },
     thumbnail_url: { type: 'string', format: 'uri' },
   },
-  additionalProperties: true,
+  additionalProperties: false,
 };
 
 module.exports = ajvInstance.compile(updateSchema);
