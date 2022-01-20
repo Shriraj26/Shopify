@@ -5,7 +5,7 @@ Hi there!! This is my submission for [Shopify Backend Developer Intern Challenge
 # Installation
 ## Requirements
 1. Download Nodejs and install with this link - [NodeJS](https://nodejs.org/en/download/)
-2. Download MongoDB and install with this link - [MongoDB](https://docs.mongodb.com/manual/installation/)
+2. Download MongoDB and install with this link - [MongoDB](https://docs.mongodb.com/manual/installation/).
 
 ## Commands to run this project locally
 
@@ -14,6 +14,13 @@ Hi there!! This is my submission for [Shopify Backend Developer Intern Challenge
 
 ### Run this project in Dev Environment
 `npm start dev`
+
+### For Windows users, set test script to this instead then u can execute the npm test script
+```
+scripts: {
+	"test" : "SET NODE_ENV=test  && nyc mocha --recursive --exit"
+}
+```
 
 ### Run Unit Tests in Test Environment, the tests are defined in test/app.test.js
 `npm test`
