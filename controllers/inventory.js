@@ -138,10 +138,6 @@ async function deleteItem(req, res) {
     return res.status(200).json({
       status: 'Success',
       message: 'Item deleted successfully!',
-      data: {
-        itemToDelete,
-        comment: itemToDelete.comments,
-      },
     });
   } catch (err) {
     if (errorHandler.isMongoError(err)) {
@@ -176,7 +172,6 @@ async function undoDelete(req, res) {
     return res.status(200).json({
       status: 'Success',
       message: 'Item Undoed successfully!',
-      data: retrieveItem,
     });
   } catch (err) {
     if (errorHandler.isMongoError(err)) {
