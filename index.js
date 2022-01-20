@@ -1,4 +1,4 @@
-const express = require('express'); // To use Express
+const express = require('express');
 
 const app = express();
 app.use(express.json());

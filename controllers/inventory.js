@@ -117,7 +117,6 @@ async function deleteItem(req, res) {
     let commentString = '';
     if (req.body.comment) {
       commentString = req.body.comment;
-      console.log('Here comment ', commentString);
     }
 
     const itemToDelete = await Inventory
