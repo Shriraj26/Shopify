@@ -1,6 +1,6 @@
 
 # Shopify
-Hi there!! This is my submission for [Shopify Backend Developer Intern Challenge - Summer 2022](https://docs.google.com/document/d/1z9LZ_kZBUbg-O2MhZVVSqTmvDko5IJWHtuFmIu_Xg1A/edit). I have used NodeJS and MongoDB for the implementation of server and the database, Express framework for creating a server and Mongoose ODM for connection with the database. The additional feature that I have implemented is of providing comments while deleting an item and undo delete feature wherein you can restore a deleted item provided an id is given. Below are the details about how to install and use this project along with several API endpoints that you can use to create, update, read an delete the items in the inventories. I thank you for giving your valuable time to review my project. Peace!
+Hi there!! This is my submission for [Shopify Backend Developer Intern Challenge - Summer 2022](https://docs.google.com/document/d/1z9LZ_kZBUbg-O2MhZVVSqTmvDko5IJWHtuFmIu_Xg1A/edit). The technologies used are - NodeJS, MongoDB, Express for server creation and database and furthermore, mocha, chai and supertest for testing purpose. The additional feature that I have implemented is of providing comments while deleting an item and undo delete feature wherein you can restore a deleted item provided an id is given. Below are the details about how to install and use this project along with several API endpoints that you can use to create, update, read an delete the items in the inventories. I thank you for giving your valuable time to review my project. Peace!
 
 # Installation
 ## Requirements
@@ -14,6 +14,9 @@ Hi there!! This is my submission for [Shopify Backend Developer Intern Challenge
 
 ### Run this project in Dev Environment
 `npm start dev`
+
+### Run Unit Tests i Test Environment, the tests are defined in test/app.test.js
+`npm test`
 
 # Routes
 
