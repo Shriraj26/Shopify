@@ -1,0 +1,193 @@
+{
+	"info": {
+		"_postman_id": "c318090c-8795-4c61-8eea-bfed3dbc7bd5",
+		"name": "Shriraj Shopify",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Inventory Item",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"zxzx\",\n    \"company\": \"fff\",\n    \"quantity\": 1,\n    \"unit_price\": 600,\n    \"image_url\": \"https://dog.ceo/api/breeds/image/random\",\n    \"thumbnail_url\": \"https://dog.ceo/api/breeds/image/random\"\n}\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch an item by item id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/fetch?id=61e8e57d68cbd442e6409f45",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"fetch"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "61e8e57d68cbd442e6409f45"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Inventory Item",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"nnnn\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/update?id=61e8e57d68cbd442e6409f45",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"update"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "61e8e57d68cbd442e6409f45"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Inventory Item",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"comment\":\"No Need of this item 2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/delete?id=ff",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"delete"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "ff"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Undo Delete",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"61e6732337b98753ebb2ef06\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/undo?id=61e8e57d68cbd442e6409f45",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"undo"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "61e8e57d68cbd442e6409f45"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch items with page and limit",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/getall?page=1&limit=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"getall"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
